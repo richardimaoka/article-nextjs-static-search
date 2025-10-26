@@ -1,3 +1,12 @@
+
+ニュース記事とそのタイトルを3本作成し、JSONで出力してください。3本の記事はそれぞれ政治、経済、外交のニュースで、日付は2025-01-01のみ、JSONは以下の形式です。
+[
+  { "title": "xxxxx", "article": "yyyyyyyyyyyyyy", "category": "政治", "date": "2025-01-01", views: 28000, tags: ["日本復活党", "農水省"] },
+  { "title": "xxxxx", "article": "yyyyyyyyyyyyyy", "category": "経済", "date": "2025-01-01", views: 18050, tags: ["自動車", "貿易", "投資", "AI"] },
+  { "title": "xxxxx", "article": "yyyyyyyyyyyyyy", "category": "外交", "date": "2025-01-01", views: 4025,  tags: ["米国", "ASEAN"] }
+]
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
