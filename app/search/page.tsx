@@ -1,6 +1,7 @@
 import styles from "./page.module.css";
 import fs from "fs/promises";
 import path from "path";
+import { z } from "zod";
 
 interface Article {
   title: string;
@@ -11,10 +12,28 @@ interface Article {
   tags: string[];
 }
 
+const ArticleSchema = z.object({
+  title: z.string(),
+  article: z.string(),
+  category: z.string(),
+  date: z.string(),
+  views: z.number(),
+  tags: z.array(z.string()),
+}) satisfies z.ZodType<Article>;
+
 async function getSearchResults(): Promise<Article[]> {
   const filePath = path.join(process.cwd(), "app", "search", "data.json");
   const fileContents = await fs.readFile(filePath, "utf8");
-  return JSON.parse(fileContents) as Article[];
+  const parsedData = JSON.parse(fileContents);
+
+  const result = z.array(ArticleSchema).safeParse(parsedData);
+
+  if (!result.success) {
+    console.error("Validation error:", result.error);
+    return []; // Return empty array or throw an error based on desired behavior
+  }
+
+  return result.data;
 }
 
 export default async function SearchResults() {
