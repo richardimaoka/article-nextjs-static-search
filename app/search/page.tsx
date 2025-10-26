@@ -1,7 +1,16 @@
-import styles from './page.module.css';
+import styles from "./page.module.css";
 
-export default function SearchResults() {
-  const searchResults = [
+interface Article {
+  title: string;
+  article: string;
+  category: string;
+  date: string;
+  views: number;
+  tags: string[];
+}
+
+function getSearchResults(): Article[] {
+  return [
     {
       title:
         "【政治】日本復活党、農水省廃止と『食料安全保障庁』新設を含む緊急行政改革案を発表",
@@ -33,6 +42,10 @@ export default function SearchResults() {
       tags: ["米国", "ASEAN", "南シナ海", "安全保障", "海洋監視"],
     },
   ];
+}
+
+export default function SearchResults() {
+  const searchResults = getSearchResults();
 
   return (
     <div className={styles.container}>
@@ -46,7 +59,9 @@ export default function SearchResults() {
             <p>{result.article.substring(0, 150)}...</p>
             <div className={styles.tags}>
               {result.tags.map((tag, tagIndex) => (
-                <span key={tagIndex} className={styles.tag}>{tag}</span>
+                <span key={tagIndex} className={styles.tag}>
+                  {tag}
+                </span>
               ))}
             </div>
             <p className={styles.views}>Views: {result.views}</p>
@@ -56,4 +71,3 @@ export default function SearchResults() {
     </div>
   );
 }
-
