@@ -1,3 +1,5 @@
+import styles from './page.module.css';
+
 export default function SearchResults() {
   const searchResults = [
     {
@@ -33,9 +35,25 @@ export default function SearchResults() {
   ];
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Search Results</h1>
-      <p>No results found.</p>
+      <div className={styles.cardGallery}>
+        {searchResults.map((result, index) => (
+          <div key={index} className={styles.card}>
+            <h2>{result.title}</h2>
+            <p className={styles.category}>{result.category}</p>
+            <p className={styles.date}>{result.date}</p>
+            <p>{result.article.substring(0, 150)}...</p>
+            <div className={styles.tags}>
+              {result.tags.map((tag, tagIndex) => (
+                <span key={tagIndex} className={styles.tag}>{tag}</span>
+              ))}
+            </div>
+            <p className={styles.views}>Views: {result.views}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+
