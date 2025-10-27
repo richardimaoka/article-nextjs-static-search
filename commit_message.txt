@@ -1,13 +1,9 @@
-feat: Enhance DetailedSearch button and animated rectangle with dynamic styles
+refactor: Make category checkboxes uncontrolled in DetailedSearch component
 
-This commit enhances the `DetailedSearch` client component with the following features:
+This commit refactors the `DetailedSearch` client component (`app/search/DetailedSearch.tsx`)
+to manage category selection using native HTML input values rather than React controlled state.
 
-- **Dynamic Button Styling:** The "詳細検索" button now dynamically changes its text to "閉じる"
-  and flips its color scheme (white background, black text) when pressed, and reverts
-  when closed. This is achieved by conditionally applying the `detailedSearchButtonActive` class.
-- **Bordered Animated Rectangle:** The animated rectangle is now enclosed within a new `div`
-  (`animatedRectangleContainer`) which has a border, improving its visual presentation.
-  The container also animates its height and opacity for a smooth reveal/hide effect.
-
-Corresponding styles have been added/modified in `app/search/DetailedSearch.module.css`
-to support these new dynamic behaviors and visual elements.
+Changes include:
+- Removal of `selectedCategories` state and `handleCategoryChange` function.
+- Category checkboxes are now rendered as uncontrolled inputs with a `name="categories[]"` attribute,
+  allowing their values to be potentially collected by a parent form submission.
