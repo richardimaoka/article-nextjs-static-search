@@ -19,7 +19,9 @@ export default function DetailedSearch() {
       >
         詳細検索
       </button>
-      {showRectangle && <div className={styles.animatedRectangle}></div>}
+      <div
+        className={`${styles.animatedRectangle} ${showRectangle ? styles.animatedRectangleVisible : ''}`}
+      ></div>
     </div>
   );
 }
