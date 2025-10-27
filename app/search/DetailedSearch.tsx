@@ -8,7 +8,8 @@ type Props = {
 };
 
 export default function DetailedSearch(props: Props) {
-  const [isOpen, setIsOpen] = useState(false);
+  const defaultOpen = props.categories.length > 0;
+  const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const allCategories = [
     { name: "政治", category: "politics" },
