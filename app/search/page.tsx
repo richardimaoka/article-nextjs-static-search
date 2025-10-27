@@ -51,11 +51,10 @@ async function getSearchResults(query: string): Promise<Article[]> {
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
-async function extractQueryString(
+async function extractFilterWord(
   searchParams: Promise<SearchParams>
 ): Promise<string> {
   const { query } = await searchParams;
-  console.log("const { query } = await searchParams;", query);
   if (Array.isArray(query)) {
     return query.join(" ");
   } else if (typeof query === "string") {
@@ -65,13 +64,26 @@ async function extractQueryString(
   }
 }
 
+async function extractCategories(
+  searchParams: Promise<SearchParams>
+): Promise<string[]> {
+  const { category } = await searchParams;
+  if (Array.isArray(category)) {
+    return category;
+  } else if (typeof category === "string") {
+    return [category];
+  } else {
+    return [];
+  }
+}
+
 type Props = {
   searchParams: Promise<SearchParams>;
 };
 
 export default async function SearchResults({ searchParams }: Props) {
-  const query = await extractQueryString(searchParams);
-  console.log("query", query, "search params", await searchParams);
+  const query = await extractFilterWord(searchParams);
+  const categories = await extractCategories(searchParams);
   const searchResults = await getSearchResults(query); // Pass query to getSearchResults
 
   return (
@@ -90,7 +102,7 @@ export default async function SearchResults({ searchParams }: Props) {
             Search
           </button>
         </div>
-        <DetailedSearch />
+        <DetailedSearch categories={categories} />
       </form>
       <div className={styles.cardGallery}>
         {searchResults.length === 0 ? (
