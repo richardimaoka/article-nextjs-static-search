@@ -45,23 +45,6 @@
   background-color: #005bb5;
 }
 
-.detailedSearchButton {
-  justify-self: start;
-
-  padding: 0.4rem 1rem;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.detailedSearchButton:hover {
-  background-color: #5a6268;
-}
-
 .cardGallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
