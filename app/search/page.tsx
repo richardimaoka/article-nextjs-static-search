@@ -39,28 +39,36 @@ async function getSearchResults(query: string): Promise<Article[]> {
     return allArticles; // If no query, return all articles
   }
 
-  const filteredArticles = allArticles.filter(article =>
-    article.title.toLowerCase().includes(query.toLowerCase()) ||
-    article.article.toLowerCase().includes(query.toLowerCase())
+  const filteredArticles = allArticles.filter(
+    (article) =>
+      article.title.toLowerCase().includes(query.toLowerCase()) ||
+      article.article.toLowerCase().includes(query.toLowerCase())
   );
 
   return filteredArticles;
 }
 
-export default async function SearchResults({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const queryParam = searchParams.query;
-  let queryTemp = "";
-  if (Array.isArray(queryParam)) {
-    queryTemp = queryParam.join(" ");
-  } else if (typeof queryParam === "string") {
-    queryTemp = queryParam;
-  }
-  const query = queryTemp;
+type SearchParams = { [key: string]: string | string[] | undefined };
 
+async function extractQueryString(
+  searchParams: Promise<SearchParams>
+): Promise<string> {
+  const { query } = await searchParams;
+  if (Array.isArray(query)) {
+    return query.join(" ");
+  } else if (typeof query === "string") {
+    return query;
+  } else {
+    return "";
+  }
+}
+
+type Props = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function SearchResults({ searchParams }: Props) {
+  const query = await extractQueryString(searchParams);
   const searchResults = await getSearchResults(query); // Pass query to getSearchResults
 
   return (
