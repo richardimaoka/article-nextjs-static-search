@@ -77,15 +77,20 @@ export default async function SearchResults({ searchParams }: Props) {
     <div className={styles.container}>
       <h1>Search Results</h1>
       <form action="/search" method="GET" className={styles.searchFormInline}>
-        <input
-          type="text"
-          placeholder="Search..."
-          className={styles.searchInput}
-          name="query"
-          defaultValue={query}
-        />
-        <button type="submit" className={styles.searchButton}>
-          Search
+        <div className={styles.searchInputContainer}>
+          <input
+            type="text"
+            placeholder="Search..."
+            className={styles.searchInput}
+            name="query"
+            defaultValue={query}
+          />
+          <button type="submit" className={styles.searchButton}>
+            Search
+          </button>
+        </div>
+        <button type="button" className={styles.detailedSearchButton}>
+          詳細検索
         </button>
       </form>
       <div className={styles.cardGallery}>
