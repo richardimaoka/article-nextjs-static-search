@@ -4,24 +4,42 @@ import { useState } from "react";
 import styles from "./DetailedSearch.module.css";
 
 export default function DetailedSearch() {
-  const [showRectangle, setShowRectangle] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleRectangle = () => {
-    setShowRectangle(!showRectangle);
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
-    <div>
-      <button
-        type="button"
-        className={styles.detailedSearchButton}
-        onClick={toggleRectangle}
-      >
-        詳細検索
-      </button>
+    <div className={styles.container}>
+      <div>
+        <button
+          type="button"
+          className={
+            isOpen
+              ? styles.detailedSearchButtonToClose
+              : styles.detailedSearchButtonToOpen
+          }
+          onClick={toggleOpen}
+        >
+          {isOpen ? "閉じる" : "詳細検索"}
+        </button>
+      </div>
       <div
-        className={`${styles.animatedRectangle} ${showRectangle ? styles.animatedRectangleVisible : ''}`}
-      ></div>
+        className={
+          isOpen
+            ? styles.animatedRectangleContainerOpen
+            : styles.animatedRectangleContainerClosed
+        }
+      >
+        <div
+          className={
+            isOpen
+              ? styles.animatedRectangleOpen
+              : styles.animatedRectangleClosed
+          }
+        ></div>
+      </div>
     </div>
   );
 }

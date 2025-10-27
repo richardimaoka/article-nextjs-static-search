@@ -1,0 +1,13 @@
+feat: Enhance DetailedSearch button and animated rectangle with dynamic styles
+
+This commit enhances the `DetailedSearch` client component with the following features:
+
+- **Dynamic Button Styling:** The "詳細検索" button now dynamically changes its text to "閉じる"
+  and flips its color scheme (white background, black text) when pressed, and reverts
+  when closed. This is achieved by conditionally applying the `detailedSearchButtonActive` class.
+- **Bordered Animated Rectangle:** The animated rectangle is now enclosed within a new `div`
+  (`animatedRectangleContainer`) which has a border, improving its visual presentation.
+  The container also animates its height and opacity for a smooth reveal/hide effect.
+
+Corresponding styles have been added/modified in `app/search/DetailedSearch.module.css`
+to support these new dynamic behaviors and visual elements.
