@@ -22,7 +22,11 @@ const ArticleSchema = z.object({
   tags: z.array(z.string()),
 }) satisfies z.ZodType<Article>;
 
-async function getSearchResults(query: string): Promise<Article[]> {
+async function getSearchResults(
+  query: string,
+  categories: string[],
+  allCategories: CategoryItem[]
+): Promise<Article[]> {
   const filePath = path.join(process.cwd(), "app", "search", "data.json");
   const fileContents = await fs.readFile(filePath, "utf8");
   const parsedData = JSON.parse(fileContents);
@@ -34,19 +38,24 @@ async function getSearchResults(query: string): Promise<Article[]> {
     return []; // Return empty array or throw an error based on desired behavior
   }
 
-  const allArticles = result.data;
+  let articlesTemp = result.data;
 
-  if (!query) {
-    return allArticles; // If no query, return all articles
+  if (query) {
+    articlesTemp = articlesTemp.filter(
+      (article) =>
+        article.title.toLowerCase().includes(query.toLowerCase()) ||
+        article.article.toLowerCase().includes(query.toLowerCase())
+    );
   }
 
-  const filteredArticles = allArticles.filter(
-    (article) =>
-      article.title.toLowerCase().includes(query.toLowerCase()) ||
-      article.article.toLowerCase().includes(query.toLowerCase())
-  );
+  console.log("categories", categories);
+  if (categories && categories.length > 0) {
+    articlesTemp = articlesTemp.filter((article) =>
+      categories.includes(article.category)
+    );
+  }
 
-  return filteredArticles;
+  return articlesTemp;
 }
 
 type SearchParams = { [key: string]: string | string[] | undefined };
@@ -77,6 +86,17 @@ async function extractCategories(
   }
 }
 
+interface CategoryItem {
+  name: string;
+  category: string;
+}
+
+async function getAllCategories(): Promise<CategoryItem[]> {
+  const filePath = path.join(process.cwd(), "app", "search", "categories.json");
+  const fileContents = await fs.readFile(filePath, "utf8");
+  return JSON.parse(fileContents) as CategoryItem[];
+}
+
 type Props = {
   searchParams: Promise<SearchParams>;
 };
@@ -84,7 +104,12 @@ type Props = {
 export default async function SearchResults({ searchParams }: Props) {
   const query = await extractFilterWord(searchParams);
   const categories = await extractCategories(searchParams);
-  const searchResults = await getSearchResults(query); // Pass query to getSearchResults
+  const allCategories = await getAllCategories();
+  const searchResults = await getSearchResults(
+    query,
+    categories,
+    allCategories
+  ); // Pass query and categories to getSearchResults
 
   return (
     <div className={styles.container}>
@@ -102,7 +127,10 @@ export default async function SearchResults({ searchParams }: Props) {
             Search
           </button>
         </div>
-        <DetailedSearch categories={categories} />
+        <DetailedSearch
+          categories={categories}
+          allCategoriesData={allCategories}
+        />
       </form>
       <div className={styles.cardGallery}>
         {searchResults.length === 0 ? (
