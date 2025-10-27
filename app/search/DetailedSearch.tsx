@@ -7,21 +7,21 @@ export default function DetailedSearch() {
   const [isOpen, setIsOpen] = useState(false);
 
   const categories = [
-    "政治",
-    "経済",
-    "外交",
-    "社会",
-    "文化",
-    "科学",
-    "テクノロジー",
-    "環境",
-    "医療",
-    "教育",
-    "スポーツ",
-    "エンタメ",
-    "地域",
-    "国際",
-    "ビジネス",
+    { name: "政治", category: "politics" },
+    { name: "経済", category: "economy" },
+    { name: "外交", category: "diplomacy" },
+    { name: "社会", category: "society" },
+    { name: "文化", category: "culture" },
+    { name: "科学", category: "science" },
+    { name: "テクノロジー", category: "technology" },
+    { name: "環境", category: "environment" },
+    { name: "医療", category: "healthcare" },
+    { name: "教育", category: "education" },
+    { name: "スポーツ", category: "sports" },
+    { name: "エンタメ", category: "entertainment" },
+    { name: "地域", category: "local" },
+    { name: "国際", category: "international" },
+    { name: "ビジネス", category: "business" },
   ];
 
   const toggleOpen = () => {
@@ -53,9 +53,13 @@ export default function DetailedSearch() {
         <div className={styles.animatedRectangle}>
           <div className={styles.categoryGrid}>
             {categories.map((cat) => (
-              <label key={cat} className={styles.categoryLabel}>
-                <input type="checkbox" name={`category-${cat}`} value={cat} />
-                {cat}
+              <label key={cat.category} className={styles.categoryLabel}>
+                <input
+                  type="checkbox"
+                  name={"categories"}
+                  value={cat.category}
+                />
+                {cat.name}
               </label>
             ))}
           </div>
