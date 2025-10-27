@@ -21,7 +21,7 @@ const ArticleSchema = z.object({
   tags: z.array(z.string()),
 }) satisfies z.ZodType<Article>;
 
-async function getSearchResults(): Promise<Article[]> {
+async function getSearchResults(query: string): Promise<Article[]> {
   const filePath = path.join(process.cwd(), "app", "search", "data.json");
   const fileContents = await fs.readFile(filePath, "utf8");
   const parsedData = JSON.parse(fileContents);
@@ -33,7 +33,18 @@ async function getSearchResults(): Promise<Article[]> {
     return []; // Return empty array or throw an error based on desired behavior
   }
 
-  return result.data;
+  const allArticles = result.data;
+
+  if (!query) {
+    return allArticles; // If no query, return all articles
+  }
+
+  const filteredArticles = allArticles.filter(article =>
+    article.title.toLowerCase().includes(query.toLowerCase()) ||
+    article.article.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return filteredArticles;
 }
 
 export default async function SearchResults({
@@ -50,7 +61,7 @@ export default async function SearchResults({
   }
   const query = queryTemp;
 
-  const searchResults = await getSearchResults();
+  const searchResults = await getSearchResults(query); // Pass query to getSearchResults
 
   return (
     <div className={styles.container}>
