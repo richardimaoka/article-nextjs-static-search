@@ -24,8 +24,7 @@ const ArticleSchema = z.object({
 
 async function getSearchResults(
   query: string,
-  categories: string[],
-  allCategories: CategoryItem[]
+  categories: string[]
 ): Promise<Article[]> {
   const filePath = path.join(process.cwd(), "app", "search", "data.json");
   const fileContents = await fs.readFile(filePath, "utf8");
@@ -48,7 +47,6 @@ async function getSearchResults(
     );
   }
 
-  console.log("categories", categories);
   if (categories && categories.length > 0) {
     articlesTemp = articlesTemp.filter((article) =>
       categories.includes(article.category)
@@ -104,12 +102,9 @@ type Props = {
 export default async function SearchResults({ searchParams }: Props) {
   const query = await extractFilterWord(searchParams);
   const categories = await extractCategories(searchParams);
+  const searchResults = await getSearchResults(query, categories); // Pass query and categories to getSearchResults
+
   const allCategories = await getAllCategories();
-  const searchResults = await getSearchResults(
-    query,
-    categories,
-    allCategories
-  ); // Pass query and categories to getSearchResults
 
   return (
     <div className={styles.container}>
