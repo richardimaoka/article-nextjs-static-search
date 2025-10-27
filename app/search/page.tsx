@@ -36,12 +36,37 @@ async function getSearchResults(): Promise<Article[]> {
   return result.data;
 }
 
-export default async function SearchResults() {
+export default async function SearchResults({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const queryParam = searchParams.query;
+  let queryTemp = "";
+  if (Array.isArray(queryParam)) {
+    queryTemp = queryParam.join(" ");
+  } else if (typeof queryParam === "string") {
+    queryTemp = queryParam;
+  }
+  const query = queryTemp;
+
   const searchResults = await getSearchResults();
 
   return (
     <div className={styles.container}>
       <h1>Search Results</h1>
+      <form action="/search" method="GET" className={styles.searchFormInline}>
+        <input
+          type="text"
+          placeholder="Search..."
+          className={styles.searchInput}
+          name="query"
+          defaultValue={query}
+        />
+        <button type="submit" className={styles.searchButton}>
+          Search
+        </button>
+      </form>
       <div className={styles.cardGallery}>
         {searchResults.map((result, index) => (
           <div key={index} className={styles.card}>
