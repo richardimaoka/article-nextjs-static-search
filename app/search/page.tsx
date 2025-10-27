@@ -54,6 +54,7 @@ async function extractQueryString(
   searchParams: Promise<SearchParams>
 ): Promise<string> {
   const { query } = await searchParams;
+  console.log("const { query } = await searchParams;", query);
   if (Array.isArray(query)) {
     return query.join(" ");
   } else if (typeof query === "string") {
@@ -69,6 +70,7 @@ type Props = {
 
 export default async function SearchResults({ searchParams }: Props) {
   const query = await extractQueryString(searchParams);
+  console.log("query", query, "search params", await searchParams);
   const searchResults = await getSearchResults(query); // Pass query to getSearchResults
 
   return (
@@ -87,22 +89,26 @@ export default async function SearchResults({ searchParams }: Props) {
         </button>
       </form>
       <div className={styles.cardGallery}>
-        {searchResults.map((result, index) => (
-          <div key={index} className={styles.card}>
-            <h2>{result.title}</h2>
-            <p className={styles.category}>{result.category}</p>
-            <p className={styles.date}>{result.date}</p>
-            <p>{result.article.substring(0, 150)}...</p>
-            <div className={styles.tags}>
-              {result.tags.map((tag, tagIndex) => (
-                <span key={tagIndex} className={styles.tag}>
-                  {tag}
-                </span>
-              ))}
+        {searchResults.length === 0 ? (
+          <p>No results found.</p>
+        ) : (
+          searchResults.map((result, index) => (
+            <div key={index} className={styles.card}>
+              <h2>{result.title}</h2>
+              <p className={styles.category}>{result.category}</p>
+              <p className={styles.date}>{result.date}</p>
+              <p>{result.article.substring(0, 150)}...</p>
+              <div className={styles.tags}>
+                {result.tags.map((tag, tagIndex) => (
+                  <span key={tagIndex} className={styles.tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <p className={styles.views}>Views: {result.views}</p>
             </div>
-            <p className={styles.views}>Views: {result.views}</p>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
