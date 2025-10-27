@@ -2,7 +2,6 @@ import styles from "./page.module.css";
 import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
-import DetailedSearch from "./DetailedSearch";
 
 interface Article {
   title: string;
@@ -90,7 +89,9 @@ export default async function SearchResults({ searchParams }: Props) {
             Search
           </button>
         </div>
-        <DetailedSearch />
+        <button type="button" className={styles.detailedSearchButton}>
+          詳細検索
+        </button>
       </form>
       <div className={styles.cardGallery}>
         {searchResults.length === 0 ? (
