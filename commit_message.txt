@@ -1,9 +1,0 @@
-refactor: Make category checkboxes uncontrolled in DetailedSearch component
-
-This commit refactors the `DetailedSearch` client component (`app/search/DetailedSearch.tsx`)
-to manage category selection using native HTML input values rather than React controlled state.
-
-Changes include:
-- Removal of `selectedCategories` state and `handleCategoryChange` function.
-- Category checkboxes are now rendered as uncontrolled inputs with a `name="categories[]"` attribute,
-  allowing their values to be potentially collected by a parent form submission.
