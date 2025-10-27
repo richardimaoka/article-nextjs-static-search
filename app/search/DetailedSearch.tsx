@@ -3,10 +3,14 @@
 import { useState } from "react";
 import styles from "./DetailedSearch.module.css";
 
-export default function DetailedSearch() {
+type Props = {
+  categories: string[];
+};
+
+export default function DetailedSearch(props: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const categories = [
+  const allCategories = [
     { name: "政治", category: "politics" },
     { name: "経済", category: "economy" },
     { name: "外交", category: "diplomacy" },
@@ -52,12 +56,13 @@ export default function DetailedSearch() {
       >
         <div className={styles.animatedRectangle}>
           <div className={styles.categoryGrid}>
-            {categories.map((cat) => (
+            {allCategories.map((cat) => (
               <label key={cat.category} className={styles.categoryLabel}>
                 <input
                   type="checkbox"
-                  name={"categories"}
+                  name={"category"}
                   value={cat.category}
+                  defaultChecked={props.categories.includes(cat.category)}
                 />
                 {cat.name}
               </label>
