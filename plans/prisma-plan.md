@@ -10,6 +10,7 @@ Replace the static `app/search/data.json` and `app/search/categories.json` files
 
 2.  **Initialize Prisma:**
     *   Run `pnpm prisma init` to create the `prisma` directory and `schema.prisma` file.
+    *   Configure `schema.prisma` to use the Rust-free engine (`engineType = "client"`) and the ESM-first provider (`provider = "prisma-client"`).
 
 3.  **Define Prisma Schema (`prisma/schema.prisma`):**
     *   Based on `data.json`, we'll create an `Article` model with fields like `id`, `title`, `article`, `category` (as a relation), `date`, `views`, and `tags`.
