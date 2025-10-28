@@ -17,7 +17,7 @@ Replace the static `app/search/data.json` and `app/search/categories.json` files
     *   Based on `categories.json`, we'll create a `Category` model with `id`, `name`, and `category` (slug).
     *   Establish the relationship between `Article` and `Category`.
 
-4.  **Configure Database:**
+4.  **Configure Database (SQLite):**
     *   Set up the `DATABASE_URL` in `.env` to point to a SQLite database file (e.g., `file:./dev.db`).
 
 5.  **Create and Apply Migration:**
@@ -41,8 +41,5 @@ Replace the static `app/search/data.json` and `app/search/categories.json` files
 10. **Testing:**
     *   Run the application and verify that all search functionalities, category filtering, and article display work as expected.
 
-## Key Considerations
-
-*   **Database Choice:** For this project, SQLite is a good starting point for local development. If a production deployment requires a different database (PostgreSQL, MySQL), the Prisma schema can be easily adapted.
-*   **Data Fetching Strategy:** Since this is a Next.js project, we'll leverage server components or `getServerSideProps`/`getStaticProps` (if applicable) to fetch data from Prisma on the server.
-*   **Error Handling:** Implement robust error handling for database operations.
+11. **Error Handling:**
+    *   Review the error the handling strategy for database operations.
