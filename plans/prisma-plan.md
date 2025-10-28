@@ -5,41 +5,41 @@ Replace the static `app/search/data.json` and `app/search/categories.json` files
 
 ## Implementation Steps
 
-1.  **Install Prisma and Database Driver:**
+- [x] **Install Prisma and Database Driver:**
     *   Add `prisma` and a database client (e.g., `sqlite`) to the project dependencies using pnpm.
 
-2.  **Initialize Prisma:**
+- [x] **Initialize Prisma:**
     *   Run `pnpm prisma init` to create the `prisma` directory and `schema.prisma` file.
     *   Configure `schema.prisma` to use the Rust-free engine (`engineType = "client"`) and the ESM-first provider (`provider = "prisma-client"`).
 
-3.  **Define Prisma Schema (`prisma/schema.prisma`):**
+- [x] **Define Prisma Schema (`prisma/schema.prisma`):**
     *   Based on `data.json`, we'll create an `Article` model with fields like `id`, `title`, `article`, `category` (as a relation), `date`, `views`, and `tags`.
     *   Based on `categories.json`, we'll create a `Category` model with `id`, `name`, and `category` (slug).
     *   Establish the relationship between `Article` and `Category`.
 
-4.  **Configure Database (SQLite):**
+- [x] **Configure Database (SQLite):**
     *   Set up the `DATABASE_URL` in `.env` to point to a SQLite database file (e.g., `file:./dev.db`).
 
-5.  **Create and Apply Migration:**
+- [x] **Create and Apply Migration:**
     *   Run `pnpm prisma migrate dev --name init` to create the database schema based on the Prisma models.
 
-6.  **Seed Database (Data Migration):**
+- [x] **Seed Database (Data Migration):**
     *   Move `app/search/data.json` and `app/search/categories.json` to the `prisma/seed` directory.
     *   Create a `prisma/seed.ts` script to read the data from `prisma/seed/data.json` and `prisma/seed/categories.json` and insert it into the new SQLite database using the Prisma client.
     *   Update `package.json` to include a `prisma:seed` script.
 
-7.  **Generate Prisma Client:**
+- [x] **Generate Prisma Client:**
     *   Run `pnpm prisma generate` to generate the Prisma client based on the schema. This will be done automatically after `prisma migrate dev`.
 
-8.  **Integrate Prisma Client into Application:**
+- [ ] **Integrate Prisma Client into Application:**
     *   Create a utility file (e.g., `lib/prisma.ts`) to initialize and export the Prisma client.
     *   Modify `app/search/page.tsx` and `app/search/DetailedSearch.tsx` (and any other relevant files) to fetch data using the Prisma client instead of directly importing the JSON files. This will involve creating server-side functions to interact with the database.
 
-9.  **Update `tsconfig.json`:**
+- [ ] **Update `tsconfig.json`:**
     *   Ensure that the `paths` in `tsconfig.json` are correctly configured if there are any `@app` aliases that might conflict or need adjustment.
 
-10. **Testing:**
+- [ ] **Testing:**
     *   Run the application and verify that all search functionalities, category filtering, and article display work as expected.
 
-11. **Error Handling:**
+- [ ] **Error Handling:**
     *   Review the error the handling strategy for database operations.
