@@ -24,7 +24,8 @@ Replace the static `app/search/data.json` and `app/search/categories.json` files
     *   Run `pnpm prisma migrate dev --name init` to create the database schema based on the Prisma models.
 
 6.  **Seed Database (Data Migration):**
-    *   Create a `prisma/seed.ts` script to read the data from `app/search/data.json` and `app/search/categories.json` and insert it into the new SQLite database using the Prisma client.
+    *   Move `app/search/data.json` and `app/search/categories.json` to the `prisma/seed` directory.
+    *   Create a `prisma/seed.ts` script to read the data from `prisma/seed/data.json` and `prisma/seed/categories.json` and insert it into the new SQLite database using the Prisma client.
     *   Update `package.json` to include a `prisma:seed` script.
 
 7.  **Generate Prisma Client:**
@@ -34,13 +35,10 @@ Replace the static `app/search/data.json` and `app/search/categories.json` files
     *   Create a utility file (e.g., `lib/prisma.ts`) to initialize and export the Prisma client.
     *   Modify `app/search/page.tsx` and `app/search/DetailedSearch.tsx` (and any other relevant files) to fetch data using the Prisma client instead of directly importing the JSON files. This will involve creating server-side functions to interact with the database.
 
-9.  **Remove Old JSON Files:**
-    *   Delete `app/search/data.json` and `app/search/categories.json` once the data is successfully migrated and the application is using the database.
-
-10. **Update `tsconfig.json`:**
+9.  **Update `tsconfig.json`:**
     *   Ensure that the `paths` in `tsconfig.json` are correctly configured if there are any `@app` aliases that might conflict or need adjustment.
 
-11. **Testing:**
+10. **Testing:**
     *   Run the application and verify that all search functionalities, category filtering, and article display work as expected.
 
 ## Key Considerations
