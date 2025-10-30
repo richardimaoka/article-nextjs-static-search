@@ -1,24 +1,28 @@
-import { PrismaClient } from '../app/generated/prisma';
-import * as articlesData from './data.json';
-import * as categoriesData from './categories.json';
+import { PrismaBetterSQLite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaClient } from "../../app/generated/prisma/client";
+import * as articlesData from "./data.json";
+import * as categoriesData from "./categories.json";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaBetterSQLite3({ url: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log('Start seeding...');
+  console.log("Start seeding...");
 
   // Seed Categories
   for (const category of categoriesData) {
     await prisma.category.upsert({
       where: { category: category.category },
-      update: {},
+      update: {
+        name: category.name,
+      },
       create: {
         name: category.name,
         category: category.category,
       },
     });
   }
-  console.log('Seeded categories.');
+  console.log("Seeded categories.");
 
   // Seed Articles
   for (const article of articlesData) {
@@ -50,7 +54,7 @@ async function main() {
       });
     }
   }
-  console.log('Seeded articles and tags.');
+  console.log("Seeded articles and tags.");
 }
 
 main()
